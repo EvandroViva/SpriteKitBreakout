@@ -16,7 +16,11 @@ let BlockNodeCategoryName = "blockNode"
 class GameScene: SKScene {
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
-        /* Setup your scene here */
+
+        let borderBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
+        borderBody.friction = 0
+        self.physicsBody = borderBody
+        
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
