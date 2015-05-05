@@ -46,7 +46,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.physicsBody!.categoryBitMask = BallCategory
         paddle.physicsBody!.categoryBitMask = PaddleCategory
         
-        ball.physicsBody!.contactTestBitMask = BottomCategory
+        ball.physicsBody!.contactTestBitMask = BottomCategory | BlockCategory
+        
+        // 1. Store some useful constants
+        let numberOfBlocks = 5
+        
+        let blockWidth = SKSpriteNode(imageNamed: "block.png").size.width
+        let totalBlocksWidth = blockWidth * CGFloat(numberOfBlocks)
+        
+        let padding: CGFloat = 10.0
+        let totalPadding = padding * CGFloat(numberOfBlocks - 1)
+        
+        // 2. Calculate the xOffset
+        let xOffset = (CGRectGetWidth(frame) - totalBlocksWidth - totalPadding) / 2
+        
+        // 3. Create the blocks and add them to the scene
+        for i in 0..<numberOfBlocks {
+            let block = SKSpriteNode(imageNamed: "block")
+            block.position = CGPointMake(xOffset + CGFloat(CGFloat(i) + 0.5)*blockWidth + CGFloat(i-1)*padding, CGRectGetHeight(frame) * 0.8)
+            block.physicsBody = SKPhysicsBody(rectangleOfSize: block.frame.size)
+            block.physicsBody!.allowsRotation = false
+            block.physicsBody!.friction = 0.0
+            block.physicsBody!.dynamic = false
+            block.physicsBody!.affectedByGravity = false
+            block.name = BlockCategoryName
+            block.physicsBody!.categoryBitMask = BlockCategory
+            addChild(block)
+        }
+        
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
@@ -111,9 +138,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 mainView.presentScene(gameOverScene)
             }
         }
+        if firstBody.categoryBitMask == BallCategory && secondBody.categoryBitMask == BlockCategory {
+            secondBody.node!.removeFromParent()
+            if isGameWon() {
+                if let mainView = view {
+                    let gameOverScene = GameOverScene.unarchiveFromFile("GameOverScene") as! GameOverScene
+                    gameOverScene.gameWon = true
+                    mainView.presentScene(gameOverScene)
+                }
+            }
+        }
     }
    
-    override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
+    override func update(currentTime: NSTimeInterval) {
+        let ball = self.childNodeWithName(BallCategoryName) as! SKSpriteNode
+        
+        let maxSpeed: CGFloat = 1000.0
+        let speed = sqrt(ball.physicsBody!.velocity.dx * ball.physicsBody!.velocity.dx + ball.physicsBody!.velocity.dy * ball.physicsBody!.velocity.dy)
+        
+        if speed > maxSpeed {
+            ball.physicsBody!.linearDamping = 0.4
+        }
+        else {
+            ball.physicsBody!.linearDamping = 0.0
+        }
+    }
+    
+    func isGameWon() -> Bool {
+        var numberOfBricks = 0
+        self.enumerateChildNodesWithName(BlockCategoryName) {
+            node, stop in
+            numberOfBricks = numberOfBricks + 1
+        }
+        return numberOfBricks == 0
     }
 }
