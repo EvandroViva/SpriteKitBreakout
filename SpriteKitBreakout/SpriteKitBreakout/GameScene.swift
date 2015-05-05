@@ -49,7 +49,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.physicsBody!.contactTestBitMask = BottomCategory | BlockCategory
         
         // 1. Store some useful constants
-        let numberOfBlocks = 5
+        let numberOfBlocks = 10
         
         let blockWidth = SKSpriteNode(imageNamed: "block.png").size.width
         let totalBlocksWidth = blockWidth * CGFloat(numberOfBlocks)
@@ -64,6 +64,57 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for i in 0..<numberOfBlocks {
             let block = SKSpriteNode(imageNamed: "block")
             block.position = CGPointMake(xOffset + CGFloat(CGFloat(i) + 0.5)*blockWidth + CGFloat(i-1)*padding, CGRectGetHeight(frame) * 0.8)
+            block.physicsBody = SKPhysicsBody(rectangleOfSize: block.frame.size)
+            block.physicsBody!.allowsRotation = false
+            block.physicsBody!.friction = 0.0
+            block.physicsBody!.dynamic = false
+            block.physicsBody!.affectedByGravity = false
+            block.name = BlockCategoryName
+            block.physicsBody!.categoryBitMask = BlockCategory
+            addChild(block)
+        }
+        
+        for i in 0..<numberOfBlocks {
+            let block = SKSpriteNode(imageNamed: "block")
+            block.position = CGPointMake(xOffset + CGFloat(CGFloat(i) + 0.5)*blockWidth + CGFloat(i-1)*padding, CGRectGetHeight(frame) * 0.7)
+            block.physicsBody = SKPhysicsBody(rectangleOfSize: block.frame.size)
+            block.physicsBody!.allowsRotation = false
+            block.physicsBody!.friction = 0.0
+            block.physicsBody!.dynamic = false
+            block.physicsBody!.affectedByGravity = false
+            block.name = BlockCategoryName
+            block.physicsBody!.categoryBitMask = BlockCategory
+            addChild(block)
+        }
+        
+        for i in 0..<numberOfBlocks {
+            let block = SKSpriteNode(imageNamed: "block")
+            block.position = CGPointMake(xOffset + CGFloat(CGFloat(i) + 0.5)*blockWidth + CGFloat(i-1)*padding, CGRectGetHeight(frame) * 0.6)
+            block.physicsBody = SKPhysicsBody(rectangleOfSize: block.frame.size)
+            block.physicsBody!.allowsRotation = false
+            block.physicsBody!.friction = 0.0
+            block.physicsBody!.dynamic = false
+            block.physicsBody!.affectedByGravity = false
+            block.name = BlockCategoryName
+            block.physicsBody!.categoryBitMask = BlockCategory
+            addChild(block)
+        }
+        
+        for i in 0..<numberOfBlocks {
+            let block = SKSpriteNode(imageNamed: "block")
+            block.position = CGPointMake(xOffset + CGFloat(CGFloat(i) + 0.5)*blockWidth + CGFloat(i-1)*padding, CGRectGetHeight(frame) * 0.5)
+            block.physicsBody = SKPhysicsBody(rectangleOfSize: block.frame.size)
+            block.physicsBody!.allowsRotation = false
+            block.physicsBody!.friction = 0.0
+            block.physicsBody!.dynamic = false
+            block.physicsBody!.affectedByGravity = false
+            block.name = BlockCategoryName
+            block.physicsBody!.categoryBitMask = BlockCategory
+            addChild(block)
+        }
+        for i in 0..<numberOfBlocks {
+            let block = SKSpriteNode(imageNamed: "block")
+            block.position = CGPointMake(xOffset + CGFloat(CGFloat(i) + 0.5)*blockWidth + CGFloat(i-1)*padding, CGRectGetHeight(frame) * 0.4)
             block.physicsBody = SKPhysicsBody(rectangleOfSize: block.frame.size)
             block.physicsBody!.allowsRotation = false
             block.physicsBody!.friction = 0.0
