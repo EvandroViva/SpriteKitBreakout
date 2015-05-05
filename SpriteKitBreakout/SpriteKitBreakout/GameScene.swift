@@ -21,6 +21,11 @@ class GameScene: SKScene {
         borderBody.friction = 0
         self.physicsBody = borderBody
         
+        physicsWorld.gravity = CGVectorMake(0, 0)
+        
+        let ball = childNodeWithName(BallCategoryName) as! SKSpriteNode
+        ball.physicsBody!.applyImpulse(CGVectorMake(10, -10))
+        
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
